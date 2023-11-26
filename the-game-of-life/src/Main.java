@@ -13,11 +13,12 @@ public class Main {
         environment.addCell(new SexualCell(2, 4, false, true, 0, 0, environment, false));
         environment.addCell(new SexualCell(3, 4, false, true, 0, 0, environment, false));
 
-        environment.addFoodUnits(50);
+        environment.addFoodUnits(300);
 
         for(int i=0; i<100; i++){
+            System.out.println("---------------------- Turn " + (i + 1) + " started. ----------------------");
             environment.simulateTurn();
-            System.out.println("Turn " + (i + 1) + " completed.");
+            System.out.println("---------------------- Turn " + (i + 1) + " completed. ----------------------");
         }
     }
 }

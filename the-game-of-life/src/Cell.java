@@ -7,8 +7,23 @@ public abstract class Cell {
     protected boolean isAlive;
     protected int health;
     protected int times_eaten;
+    protected int rounds_since_last_eaten;
     protected final Environment environment;
 
+    @Override
+    public String toString() {
+        return "Cell{" +
+                "ID=" + this.hashCode() +
+                ", T_starve=" + T_starve +
+                ", T_full=" + T_full +
+                ", rounds_since_last_eaten=" + rounds_since_last_eaten +
+                ", isHungry=" + isHungry +
+                ", isAlive=" + isAlive +
+                ", health=" + health +
+                ", times_eaten=" + times_eaten +
+                ", environment=" + environment +
+                '}';
+    }
 
     public Cell(int t_starve, int t_full, boolean isHungry, boolean isAlive, int health, int times_eaten, Environment environment) {
         T_starve = t_starve;
@@ -18,6 +33,7 @@ public abstract class Cell {
         this.health = health;
         this.times_eaten = times_eaten;
         this.environment = environment;
+        this.rounds_since_last_eaten = 0;
     }
 
     public abstract void multiply();
@@ -26,64 +42,39 @@ public abstract class Cell {
         if(!isAlive)
             return;
 
-//        if(isHungry){
-//            if(environment.consumeFoodUnitOk()){
-//                isHungry = false;
-//                health = T_full;
-//                times_eaten++;
-//
-//                if(times_eaten % 10 == 0){
-//                    multiply();
-//                }
-//            }
-//            else{
-//                health--;
-//
-//                if(-T_starve == health){
-//                    die();
-//                }
-//            }
-//        }
-//        else{
-//            if(environment.consumeFoodUnitOk()){
-//                health += T_full;
-//                times_eaten++;
-//
-//                if(times_eaten % 10 == 0){
-//                    multiply();
-//                }
-//            }
-//        }
-
         if (environment.consumeFoodUnitOk()) {
-            if (isHungry) {
+//            System.out.println("Cell with hash ");
+            if (isHungry)
                 isHungry = false;
-                health = T_full;
-            } else {
-                health += T_full;
-            }
+
+            health += T_full;
             times_eaten++;
+            rounds_since_last_eaten = 0;
 
             if (times_eaten % 10 == 0) {
                 multiply();
             }
-        } else if (isHungry) {
-            health--;
+        }
+        else{
+            if (isHungry) {
+                health--;
 
-            if (health == -T_starve) {
-                die();
+                if ((rounds_since_last_eaten - T_full) >= T_starve) {
+                    die();
+                }
             }
+            else{
+                if(rounds_since_last_eaten >= T_full)
+                    isHungry = true;
+            }
+            rounds_since_last_eaten++;
         }
 
 
-
-
-//        checkAndConsumeFood();
-
-//        if(isHungry)
     }
 
     public void die(){
+        System.out.println("Cell with hashCode=" + this.hashCode() + " has died!");
         isAlive = false;
 
         Random random = new Random();

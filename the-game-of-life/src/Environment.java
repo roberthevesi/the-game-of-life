@@ -6,6 +6,10 @@ public class Environment {
     private final List<Cell> cells;
     private int foodUnits;
 
+    public int getFoodUnits() {
+        return foodUnits;
+    }
+
     public Environment() {
         this.cells = new CopyOnWriteArrayList<>(); // Thread-safe list
         this.foodUnits = 0;
@@ -28,7 +32,9 @@ public class Environment {
     }
 
     public void simulateTurn(){
+        System.out.println("Food units left in environment at this turn: " + foodUnits);
         for(Cell cell : cells){
+            System.out.println(cell);
             cell.cycle();
         }
 
@@ -40,6 +46,8 @@ public class Environment {
         for (int i = 0; i < readyCells.size() - 1; i += 2) {
             SexualCell cell1 = readyCells.get(i);
             SexualCell cell2 = readyCells.get(i + 1);
+
+            System.out.println("Two sexual cells have multiplied into a third hungry cell!");
 
             addCell(new SexualCell(5, 5, true, true, 0, 0, this, false));
 
