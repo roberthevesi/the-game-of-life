@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public abstract class Cell {
+public abstract class Cell extends Thread{
     protected int T_starve;
     protected int T_full;
     protected boolean isHungry;
@@ -36,9 +36,22 @@ public abstract class Cell {
         this.rounds_since_last_eaten = 0;
     }
 
+    @Override
+    public void run() {
+        while(isAlive) {
+            try {
+                cycle();
+                Thread.sleep(1000); // simulate time delay for each cycle
+            } catch (InterruptedException e) {
+                System.out.println("Cell with hashCode=" + this.hashCode() + " was interrupted!");
+                isAlive = false;
+            }
+        }
+    }
+
     public abstract void multiply();
 
-    public void cycle(){
+    protected void cycle(){
         if(!isAlive)
             return;
 
@@ -69,11 +82,9 @@ public abstract class Cell {
             }
             rounds_since_last_eaten++;
         }
-
-
     }
 
-    public void die(){
+    protected void die(){
         System.out.println("Cell with hashCode=" + this.hashCode() + " has died!");
         isAlive = false;
 
@@ -107,10 +118,6 @@ public abstract class Cell {
 
     public void setHungry(boolean hungry) {
         isHungry = hungry;
-    }
-
-    public boolean isAlive() {
-        return isAlive;
     }
 
     public void setAlive(boolean alive) {

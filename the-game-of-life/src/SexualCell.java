@@ -1,5 +1,5 @@
 public class SexualCell extends Cell{
-    public boolean readyToMultiply;
+    public volatile boolean readyToMultiply;
 
     public SexualCell(int t_starve, int t_full, boolean isHungry, boolean isAlive, int health, int times_eaten, Environment environment, boolean readyToMultiply) {
         super(t_starve, t_full, isHungry, isAlive, health, times_eaten, environment);
@@ -16,8 +16,22 @@ public class SexualCell extends Cell{
 
     @Override
     public void multiply() {
+        // Implementing synchronized mating mechanism
+        synchronized (environment) {
+            if (!isAlive || !readyToMultiply) return;
 
-        // multiply through mating, create a new hungry cell
+            // Find a partner cell that is ready to multiply
+            SexualCell partner = environment.findReadySexualCell(this);
+            if (partner != null) {
+                System.out.println("Two sexual cells have multiplied into a third hungry cell!");
+                SexualCell offspring = new SexualCell(T_starve, T_full, true, true, health, times_eaten, environment, false);
+                offspring.start(); // start the new thread
 
+                environment.addCell(offspring);
+
+                readyToMultiply = false;
+                partner.setReadyToMultiply(false);
+            }
+        }
     }
 }
