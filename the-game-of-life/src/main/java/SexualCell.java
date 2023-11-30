@@ -16,6 +16,12 @@ public class SexualCell extends Cell{
 
     @Override
     public void multiply() {
+        try {
+            EventPublisher.publish("Two cells mated and resulted in a new hungry cell!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Implementing synchronized mating mechanism
         synchronized (environment) {
             if (!isAlive || !readyToMultiply) return;

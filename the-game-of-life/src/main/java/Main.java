@@ -1,8 +1,9 @@
+import java.io.IOException;
+
 public class Main {
     public static void main(String[] args) {
-//        AsexualCell cellA = new AsexualCell(5, 5, false, 0, 0);
-//        SexualCell cellS = new SexualCell(3, 4, false, 0, 0);
-
+        Thread consumerThread = new Thread(new EventConsumer());
+        consumerThread.start();
 
         Environment environment = new Environment();
         environment.addFoodUnits(300);
@@ -29,7 +30,7 @@ public class Main {
         environment.addCell(cellS3);
 
         // Simulation loop
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 50; i++) {
             try {
                 System.out.println("---------------------- Turn " + (i + 1) + " started. ----------------------");
                 environment.simulateTurn();
@@ -39,5 +40,6 @@ public class Main {
                 e.printStackTrace();
             }
         }
+        environment.stopAllCells();
     }
 }

@@ -5,6 +5,12 @@ public class AsexualCell extends Cell{
 
     @Override
     public void multiply() {
+        try {
+            EventPublisher.publish("Asexual cell has multiplied into two hungry cells!");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         if(!isAlive)
             return;
 

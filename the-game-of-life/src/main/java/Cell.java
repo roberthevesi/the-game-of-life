@@ -52,8 +52,10 @@ public abstract class Cell extends Thread{
     public abstract void multiply();
 
     protected void cycle(){
-        if(!isAlive)
+        if(!isAlive){
+            this.interrupt();
             return;
+        }
 
         if (environment.consumeFoodUnitOk()) {
 //            System.out.println("Cell with hash ");
@@ -92,55 +94,5 @@ public abstract class Cell extends Thread{
         int randomFoodUnits = random.nextInt(5) + 1;
 
         environment.addFoodUnits(randomFoodUnits);
-    }
-
-
-
-    public int getT_starve() {
-        return T_starve;
-    }
-
-    public void setT_starve(int t_starve) {
-        T_starve = t_starve;
-    }
-
-    public int getT_full() {
-        return T_full;
-    }
-
-    public void setT_full(int t_full) {
-        T_full = t_full;
-    }
-
-    public boolean isHungry() {
-        return isHungry;
-    }
-
-    public void setHungry(boolean hungry) {
-        isHungry = hungry;
-    }
-
-    public void setAlive(boolean alive) {
-        isAlive = alive;
-    }
-
-    public int getHealth() {
-        return health;
-    }
-
-    public void setHealth(int health) {
-        this.health = health;
-    }
-
-    public int getTimes_eaten() {
-        return times_eaten;
-    }
-
-    public void setTimes_eaten(int times_eaten) {
-        this.times_eaten = times_eaten;
-    }
-
-    public Environment getEnvironment() {
-        return environment;
     }
 }
