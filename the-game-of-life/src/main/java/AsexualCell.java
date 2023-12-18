@@ -6,11 +6,14 @@ public class AsexualCell extends Cell{
     @Override
     public void multiply() {
         try {
-//            EventPublisher.publish("Asexual cell should multiply into two hungry cells!");
+            environment.getSemaphore().acquire();
             String message = "AsexualCell:multiply:" + this.getCellId();
             EventPublisher.publish(message);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally{
+            environment.getSemaphore().release();
         }
     }
 

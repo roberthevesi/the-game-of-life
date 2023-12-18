@@ -20,11 +20,14 @@ public class SexualCell extends Cell{
     public void multiply() {
         this.setReadyToMultiply(true);
         try {
-//            EventPublisher.publish("Two cells mated and resulted in a new hungry cell!");
+            environment.getSemaphore().acquire();
             String message = "SexualCell:multiply:" + this.getCellId();
             EventPublisher.publish(message);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+        finally{
+            environment.getSemaphore().release();
         }
     }
 }

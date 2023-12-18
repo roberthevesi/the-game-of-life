@@ -1,10 +1,15 @@
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 public class Environment {
-    private static Environment instance = new Environment();
+    private static Environment instance = new Environment(10);
+    private Semaphore semaphore;
+    private final Lock lock = new ReentrantLock();
 
     public final List<Cell> cells;
     private int foodUnits;
@@ -13,13 +18,22 @@ public class Environment {
         return foodUnits;
     }
 
-    private Environment() {
+    private Environment(int permits) {
+        this.semaphore = new Semaphore(permits);
         this.cells = new CopyOnWriteArrayList<>(); // Thread-safe list
         this.foodUnits = 0;
     }
 
     public static Environment getInstance(){
         return instance;
+    }
+
+    public Semaphore getSemaphore() {
+        return semaphore;
+    }
+
+    public Lock getLock() {
+        return lock;
     }
 
     public void addCell(Cell cell){

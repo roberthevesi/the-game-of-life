@@ -60,6 +60,8 @@ public class EventConsumer implements Runnable {
         if(cell == null)
             return;
 
+        environment.getLock().lock();
+
         System.out.println("Cell with id=" + cellId + " has died!");
         cell.setAlive(false);
 
@@ -67,6 +69,8 @@ public class EventConsumer implements Runnable {
         int randomFoodUnits = random.nextInt(5) + 1;
 
         environment.addFoodUnits(randomFoodUnits);
+
+        environment.getLock().unlock();
     }
 
     private void handleSexualCellAction(String action, String cellId) {
@@ -74,6 +78,8 @@ public class EventConsumer implements Runnable {
         SexualCell cell = (SexualCell) environment.getCellById(cellId);
         if(cell == null)
             return;
+
+        environment.getLock().lock();
 
         // Implement logic specific to AsexualCell
         System.out.println("Handling SexualCell action: " + action);
@@ -97,6 +103,7 @@ public class EventConsumer implements Runnable {
             }
         }
 
+        environment.getLock().unlock();
     }
 
     private void handleAsexualCellAction(String action, String cellId) {
@@ -107,6 +114,8 @@ public class EventConsumer implements Runnable {
 
         if(!cell.getIsAlive())
             return;
+
+        environment.getLock().lock();
 
         // Implement logic specific to AsexualCell
         System.out.println("Handling AsexualCell action: " + action);
@@ -123,5 +132,7 @@ public class EventConsumer implements Runnable {
             environment.addCell(c1);
             environment.addCell(c2);
         }
+
+        environment.getLock().unlock();
     }
 }
