@@ -32,3 +32,12 @@ This problem is a great example of how complexity can arise from simplicity. In 
 - class: **Environment**: manages the shared resources;
 - interface: **ReproductionListener**: allows classes to listen for and handle reproduction events;
 - interface: **StarvationListener**: handles starvation events.
+
+## Solving The Concurrency Issues...
+
+1. **Threads**: using threads enabled the usage of executing tasks in parallel, allowing different cells to operate independently and simulaneously.
+2. **Synchronization**: ensured that only one thread can access a method at a time.
+3. **Locks**: blocked resources when used.
+4. **Semaphore**: managed access to a limited resource, restricting the number of concurrent threads in our program
+5. **Concurrenct Collections**: used CopyOnWriteArrayList to ensure that our collections are safely accessed by multiple threads concurrently.
+6. **Using Volatile**: ensures that changes to a variable are immediately visible to all threads.
