@@ -14,30 +14,17 @@ public class SexualCell extends Cell{
         this.readyToMultiply = readyToMultiply;
     }
 
+
+
     @Override
     public void multiply() {
+        this.setReadyToMultiply(true);
         try {
-            EventPublisher.publish("Two cells mated and resulted in a new hungry cell!");
+//            EventPublisher.publish("Two cells mated and resulted in a new hungry cell!");
+            String message = "SexualCell:multiply:" + this.getCellId();
+            EventPublisher.publish(message);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-
-        // Implementing synchronized mating mechanism
-        synchronized (environment) {
-            if (!isAlive || !readyToMultiply) return;
-
-            // Find a partner cell that is ready to multiply
-            SexualCell partner = environment.findReadySexualCell(this);
-            if (partner != null) {
-                System.out.println("Two sexual cells have multiplied into a third hungry cell!");
-                SexualCell offspring = new SexualCell(T_starve, T_full, true, true, health, times_eaten, environment, false);
-                offspring.start(); // start the new thread
-
-                environment.addCell(offspring);
-
-                readyToMultiply = false;
-                partner.setReadyToMultiply(false);
-            }
         }
     }
 }

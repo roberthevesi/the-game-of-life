@@ -1,6 +1,8 @@
 import java.util.Random;
+import java.util.UUID;
 
 public abstract class Cell extends Thread{
+    protected String cellId;
     protected int T_starve;
     protected int T_full;
     protected boolean isHungry;
@@ -26,6 +28,7 @@ public abstract class Cell extends Thread{
     }
 
     public Cell(int t_starve, int t_full, boolean isHungry, boolean isAlive, int health, int times_eaten, Environment environment) {
+        this.cellId = UUID.randomUUID().toString();
         T_starve = t_starve;
         T_full = t_full;
         this.isHungry = isHungry;
@@ -87,12 +90,80 @@ public abstract class Cell extends Thread{
     }
 
     protected void die(){
-        System.out.println("Cell with hashCode=" + this.hashCode() + " has died!");
-        isAlive = false;
+        try {
+//            EventPublisher.publish("Two cells mated and resulted in a new hungry cell!");
+            String message = "x:die:" + this.getCellId();
+            EventPublisher.publish(message);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-        Random random = new Random();
-        int randomFoodUnits = random.nextInt(5) + 1;
+    public boolean getIsAlive() {
+        return isAlive;
+    }
 
-        environment.addFoodUnits(randomFoodUnits);
+    public String getCellId() {
+        return cellId;
+    }
+
+    public void setCellId(String cellId) {
+        this.cellId = cellId;
+    }
+
+    public int getT_starve() {
+        return T_starve;
+    }
+
+    public void setT_starve(int t_starve) {
+        T_starve = t_starve;
+    }
+
+    public int getT_full() {
+        return T_full;
+    }
+
+    public void setT_full(int t_full) {
+        T_full = t_full;
+    }
+
+    public boolean isHungry() {
+        return isHungry;
+    }
+
+    public void setHungry(boolean hungry) {
+        isHungry = hungry;
+    }
+
+    public void setAlive(boolean alive) {
+        isAlive = alive;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
+    }
+
+    public int getTimes_eaten() {
+        return times_eaten;
+    }
+
+    public void setTimes_eaten(int times_eaten) {
+        this.times_eaten = times_eaten;
+    }
+
+    public int getRounds_since_last_eaten() {
+        return rounds_since_last_eaten;
+    }
+
+    public void setRounds_since_last_eaten(int rounds_since_last_eaten) {
+        this.rounds_since_last_eaten = rounds_since_last_eaten;
+    }
+
+    public Environment getEnvironment() {
+        return environment;
     }
 }

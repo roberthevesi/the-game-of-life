@@ -1,8 +1,11 @@
 import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.Collectors;
 
 public class Environment {
+    private static Environment instance = new Environment();
+
     public final List<Cell> cells;
     private int foodUnits;
 
@@ -10,9 +13,13 @@ public class Environment {
         return foodUnits;
     }
 
-    public Environment() {
+    private Environment() {
         this.cells = new CopyOnWriteArrayList<>(); // Thread-safe list
         this.foodUnits = 0;
+    }
+
+    public static Environment getInstance(){
+        return instance;
     }
 
     public void addCell(Cell cell){
@@ -29,6 +36,15 @@ public class Environment {
 
     public void addFoodUnits(int units){
         foodUnits += units;
+    }
+
+    public Cell getCellById(String cellId){
+        for(Cell cell : cells){
+            if(cell.getCellId().equals(cellId)){
+                return cell;
+            }
+        }
+        return null;
     }
 
     public SexualCell findReadySexualCell(SexualCell requester) {

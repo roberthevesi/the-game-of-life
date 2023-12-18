@@ -5,7 +5,7 @@ public class Main {
         Thread consumerThread = new Thread(new EventConsumer());
         consumerThread.start();
 
-        Environment environment = new Environment();
+        Environment environment = Environment.getInstance();
         environment.addFoodUnits(300);
 
         AsexualCell cellA1 = new AsexualCell(4, 3, false, true, 0, 0, environment);
