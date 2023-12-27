@@ -7,8 +7,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
 public class Environment {
-    private static Environment instance = new Environment(10);
-    private Semaphore semaphore;
+    private static final Environment instance = new Environment(2);
+    private final Semaphore semaphore;
     private final Lock lock = new ReentrantLock();
 
     public final List<Cell> cells;

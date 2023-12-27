@@ -91,13 +91,10 @@ public abstract class Cell extends Thread{
 
     protected void die(){
         try {
-            environment.getSemaphore().acquire();
             String message = "x:die:" + this.getCellId();
             EventPublisher.publish(message);
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-          environment.getSemaphore().release();
         }
     }
 

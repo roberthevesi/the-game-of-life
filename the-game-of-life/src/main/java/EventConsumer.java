@@ -60,8 +60,6 @@ public class EventConsumer implements Runnable {
         if(cell == null)
             return;
 
-        environment.getLock().lock();
-
         System.out.println("Cell with id=" + cellId + " has died!");
         cell.setAlive(false);
 
@@ -69,8 +67,6 @@ public class EventConsumer implements Runnable {
         int randomFoodUnits = random.nextInt(5) + 1;
 
         environment.addFoodUnits(randomFoodUnits);
-
-        environment.getLock().unlock();
     }
 
     private void handleSexualCellAction(String action, String cellId) {
@@ -79,7 +75,6 @@ public class EventConsumer implements Runnable {
         if(cell == null)
             return;
 
-        environment.getLock().lock();
 
         // Implement logic specific to AsexualCell
         System.out.println("Handling SexualCell action: " + action);
@@ -88,6 +83,7 @@ public class EventConsumer implements Runnable {
                 if (!cell.getIsAlive() || !cell.isReadyToMultiply()) return;
 
                 // Find a partner cell that is ready to multiply
+                environment.getLock().lock();
                 SexualCell partner = environment.findReadySexualCell(cell);
 
                 if (partner != null) {
@@ -100,10 +96,11 @@ public class EventConsumer implements Runnable {
                     cell.setReadyToMultiply(false);
                     partner.setReadyToMultiply(false);
                 }
+
+                environment.getLock().unlock();
             }
         }
 
-        environment.getLock().unlock();
     }
 
     private void handleAsexualCellAction(String action, String cellId) {
@@ -114,8 +111,6 @@ public class EventConsumer implements Runnable {
 
         if(!cell.getIsAlive())
             return;
-
-        environment.getLock().lock();
 
         // Implement logic specific to AsexualCell
         System.out.println("Handling AsexualCell action: " + action);
@@ -132,7 +127,5 @@ public class EventConsumer implements Runnable {
             environment.addCell(c1);
             environment.addCell(c2);
         }
-
-        environment.getLock().unlock();
     }
 }

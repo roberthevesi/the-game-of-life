@@ -8,12 +8,12 @@ public class Main {
         Environment environment = Environment.getInstance();
         environment.addFoodUnits(300);
 
-        AsexualCell cellA1 = new AsexualCell(4, 3, false, true, 0, 0, environment);
-        AsexualCell cellA2 = new AsexualCell(5, 6, false, true, 0, 0, environment);
-        AsexualCell cellA3 = new AsexualCell(2, 5, false, true, 0, 0, environment);
-        SexualCell cellS1 = new SexualCell(4, 3, false, true, 0, 0, environment, false);
-        SexualCell cellS2 = new SexualCell(2, 4, false, true, 0, 0, environment, false);
-        SexualCell cellS3 = new SexualCell(3, 4, false, true, 0, 0, environment, false);
+        AsexualCell cellA1 = new AsexualCell(4, 3, true, true, 0, 0, environment);
+        AsexualCell cellA2 = new AsexualCell(5, 6, true, true, 0, 0, environment);
+        AsexualCell cellA3 = new AsexualCell(2, 5, true, true, 0, 0, environment);
+        SexualCell cellS1 = new SexualCell(4, 3, true, true, 0, 0, environment, false);
+        SexualCell cellS2 = new SexualCell(2, 4, true, true, 0, 0, environment, false);
+        SexualCell cellS3 = new SexualCell(3, 4, true, true, 0, 0, environment, false);
 
         cellA1.start();
         cellA2.start();
